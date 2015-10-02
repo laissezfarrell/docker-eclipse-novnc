@@ -1,5 +1,5 @@
 FROM ubuntu:14.04
-MAINTAINER Mark McCahill <mccahill@duke.edu>
+MAINTAINER Matthew Farrell <matthew.j.farrell@duke.edu>
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV HOME /root
@@ -25,7 +25,7 @@ RUN apt-get install -y --force-yes --no-install-recommends supervisor \
         net-tools \
         lxde x11vnc xvfb \
         gtk2-engines-murrine ttf-ubuntu-font-family \
-        libreoffice firefox \
+        libreoffice \
         xserver-xorg-video-dummy \
     && apt-get autoclean \
     && apt-get autoremove \
@@ -59,22 +59,6 @@ RUN chown -R ubuntu ~ubuntu/.config ; chgrp -R ubuntu ~ubuntu/.config
 RUN rm -r /openbox-config
 
 WORKDIR /
-
-############ being Eclipse stuff ###############
-# java install
-RUN add-apt-repository ppa:webupd8team/java
-RUN apt-get update
-# say yes to the oracle license agreement
-RUN echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
-RUN echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections
-#
-RUN apt-get install -y --force-yes oracle-java8-installer
-RUN apt-get install -y --force-yes oracle-java8-set-default
-#
-# eclipse IDE
-RUN apt-get install -y desktop-file-utils
-RUN apt-get install -y eclipse
-############ end Eclipse stuff ###############
 
 # noVNC
 ADD noVNC /noVNC/
