@@ -110,3 +110,7 @@ To add supervisord configs, add them to this folder:
 ```
 /etc/supervisor/conf.d/
 ```
+
+Other things related to this project
+------------------------------------
+This container is meant to be run with and connected to a data volume container. For security reasons, I have not hosted that container's data on GitHub.
