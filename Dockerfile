@@ -27,7 +27,7 @@ RUN apt-get install -y --force-yes --no-install-recommends supervisor \
         gtk2-engines-murrine ttf-ubuntu-font-family \
         libreoffice \
         xserver-xorg-video-dummy \
-		dosbox
+        dosbox
     && apt-get autoclean \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/*
