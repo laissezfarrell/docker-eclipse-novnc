@@ -6,7 +6,7 @@ What is this?
 This project is an example of how a Docker container can be
 run on headless servers to provide access to XWindow apps to anyone with
 an HTML5 capable web browser. In this case, we are running the Eclipse IDE and
-OpenBox, OpenOffice, and Firefox in the container.
+OpenBox, OpenOffice, Firefox, and DOSbox in the container.
 
 To embed the app in a web page, we use VNC for remote access to X via x11vnc and noVNC.
 NoVNC uses web sockets and client-side javascript to provide a zero install VNC 
