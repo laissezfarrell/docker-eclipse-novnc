@@ -53,6 +53,8 @@ ADD supervisord.conf.xorg /etc/supervisor/supervisord.conf
 EXPOSE 6080
 EXPOSE 5900
 EXPOSE 22
+EXPOSE 8080
+#last port exposure for linking to the container holding content
 
 ADD openbox-config /openbox-config
 RUN cp -r /openbox-config/.config ~ubuntu/
