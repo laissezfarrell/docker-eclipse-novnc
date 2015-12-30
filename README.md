@@ -1,21 +1,60 @@
-docker-eclipse-novnc
-=========================
+docker-novnc-trials (with a great many thanks to Mark McCahill)
+===============================================================
 
 What is this?
 -------------
-This project is an example of how a Docker container can be
+The original project is an example of how a Docker container can be
 run on headless servers to provide access to XWindow apps to anyone with
-an HTML5 capable web browser. In this case, we are running the Eclipse IDE and
-OpenBox, OpenOffice, Firefox, xpdf, and DOSbox in the container.
+an HTML5 capable web browser. In this project, we are testing the original project's suitability in providing remote access to digital archival materials held by the David M. Rubenstein Rare Book & Manuscript Library. This particular instance runs OpenBox, OpenOffice, xpdf, and DOSbox in the container.
 
 To embed the app in a web page, we use VNC for remote access to X via x11vnc and noVNC.
 NoVNC uses web sockets and client-side javascript to provide a zero install VNC 
 client run inside the user's web browser. Both Xvfb and Xorg/Xdummy are supported so
-you can run the container on headless servers.
+you can run the container on headless servers. For detailed information about building and running the NoVNC container, skip down to the "How to build the NoVNC container" and "Encrypted noVNC Sessions" sections.
 
-How to build 
-------------
-First cd to the noVNC directory and create a self.pem certificate 
+Other things related to this project
+------------------------------------
+This container is meant to be run with and connected to a data volume container (DVC). For security reasons, I have not hosted that container's data on GitHub. The project file contentcontainer_exampledockerfile.txt is a generalized example of what this Dockerfile might look like, but you will need to create your own.
+
+Since this project is a proof-of-concept, it has not been integrated with any authentication layers. The data meant to be stored in the DVC is, at this point, publicly available material. Anything requiring any meaningful access control should not be used in conjunction with this project at this time.
+
+Workflow in a nutshell
+----------------------
+1) Build Data Volume Container Image
+```
+docker build -t [some descriptive name] .
+```
+e.g.,
+```
+docker build -t rl-content-base .
+```
+2) Build Access Image Container	
+```
+docker build -t [some descriptive name] .
+```
+e.g., 
+```
+docker build -t rl-access-base . 
+```
+3) Create Data Volume Container from image built in (1)
+```
+docker create -v /path/to/data/dir --name [new container name] [image name] /bin/true
+```
+e.g., 
+```
+docker create -v /home/data/UA-Reports --name ua-reports-contents rl-content-base /bin/true
+```
+4) Run container from image build in (2)
+```
+docker run --volumes-from [DVC create in (3)] -i -t -p 6080:6080 -h [host] --name [new container name] [Access Image Container name]
+```
+e.g., 
+```
+docker run --volumes-from ua-reports-contents -i -t -p 6080:6080 -h colab-sbx-284.oit.duke.edu --name ua-reports-access rl-access-base
+```
+How to build the NoVNC container 
+--------------------------------
+From your host machine, first cd to the noVNC directory and create a self.pem certificate 
 for noVNC. This is necessary because we want to force secure connections 
 (via https and wss) between the user's web browser and the container. 
 See the "Encrypted noVNC Sessions" section below for details on how to
@@ -23,19 +62,19 @@ set up the site certificate.
 
 After you have a cert in self.pem, build the container with the command
 ```
-sudo docker build -t docker-eclipse-novnc .
+sudo docker build -t docker-novnc-trials .
 ```
 
 Run using the default password from the Dockerfile build script:
 ```
-sudo docker run -i -t -p 6080:6080 -h your.hostname.here docker-eclipse-novnc
+sudo docker run -i -t -p 6080:6080 -h your.hostname.here docker-novnc-trials
 ```
 
 Better yet, run and set the passwords for VNC and user via environment variables like this:
 
 ```
 sudo docker run -i -t -p 6080:6080 -e UBUNTUPASS=supersecret -e VNCPASS=secret \
-   -h your.hostname.here docker-eclipse-novnc
+   -h your.hostname.here docker-novnc-trials
 ```
 You need to specify the hostname to the container so that it matches the
 site certificate that you configured noVNC with, or pedantic web browsers will
@@ -110,7 +149,3 @@ To add supervisord configs, add them to this folder:
 ```
 /etc/supervisor/conf.d/
 ```
-
-Other things related to this project
-------------------------------------
-This container is meant to be run with and connected to a data volume container. For security reasons, I have not hosted that container's data on GitHub.
