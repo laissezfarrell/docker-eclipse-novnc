@@ -49,9 +49,6 @@ RUN rm /etc/supervisor/supervisord.conf
 RUN useradd --create-home --shell /bin/bash --user-group ubuntu
 RUN echo "ubuntu:badpassword" | chpasswd
 
-RUN mkdir /home/data/
-RUN ln -s /home/data/ /home/ubuntu/Desktop/data_shortcut
-
 ADD startup.sh /
 ADD supervisord.conf.xorg /etc/supervisor/supervisord.conf
 EXPOSE 6080
@@ -74,5 +71,8 @@ RUN mkdir /home/root
 RUN mkdir /home/root/.vnc
 RUN x11vnc -storepasswd foobar /home/root/.vnc/passwd
 ADD xorg.conf /etc/X11/xorg.conf
+
+RUN mkdir /home/data/
+RUN ln -s /home/data/ /home/ubuntu/Desktop/data_shortcut
 
 ENTRYPOINT ["/startup.sh"]
