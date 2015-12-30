@@ -73,6 +73,7 @@ RUN x11vnc -storepasswd foobar /home/root/.vnc/passwd
 ADD xorg.conf /etc/X11/xorg.conf
 
 RUN mkdir /home/data/
+    && mkdir /home/ubuntu/Desktop/data_shortcut/
 RUN ln -s /home/data/ /home/ubuntu/Desktop/data_shortcut
 
 ENTRYPOINT ["/startup.sh"]
