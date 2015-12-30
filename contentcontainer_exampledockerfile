@@ -1,0 +1,25 @@
+FROM ubuntu:14.04
+MAINTAINER Matthew Farrell <matthew.j.farrell@duke.edu>
+
+#Image builds!--f on 12/28/2015
+#Container runs with the data in the correct places!--f on 12/28/2015
+
+#install wget in order to pull from the DDR
+RUN apt-get update \
+	&& apt-get install -y wget \
+	&& rm -rf /var/lib/apt/lists/*
+#make data directories somewhere
+RUN mkdir -p /path/to/desired/datastore \
+     && mkdir -p /additional/path/for/other/collections/ \
+#add publicly available files from DSpace (ADD) and Fedora repositories (RUN wget)
+ADD [URL, e.g. http://website.com/sampledata.pdf] /path/listed/in/lines/12and13/
+ADD [URL, e.g. http://website.com/sampledata.pdf] /path/listed/in/lines/12and13/
+ADD [URL, e.g. http://website.com/sampledata.pdf] /path/listed/in/lines/12and13/
+
+RUN wget --no-check-certificate [Fedora repo URL https://repo.name.edu/download/pid -O /path/listed/in/lines/12and13/filewithextension.doc
+
+#change permissions so NoVNC user can read and execute files)
+RUN chmod 777 /path/listed/in/lines/12and13/* \
+     && chmod 777 /path/listed/in/lines/12and13/*
+
+EXPOSE 80
