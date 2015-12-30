@@ -28,6 +28,7 @@ RUN apt-get install -y --force-yes --no-install-recommends supervisor \
         libreoffice \
         xserver-xorg-video-dummy \
         dosbox \
+		xpdf \
     && apt-get autoclean \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/*
