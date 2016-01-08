@@ -55,7 +55,8 @@ EXPOSE 6080
 EXPOSE 5900
 EXPOSE 22
 EXPOSE 8080
-#last port exposure for linking to the container holding content
+EXPOSE 6081 
+#last port exposure is an attempt to allow more than one collection to be accessed at a time.
 
 ADD openbox-config /openbox-config
 RUN cp -r /openbox-config/.config ~ubuntu/
