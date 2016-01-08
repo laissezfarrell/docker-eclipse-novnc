@@ -69,7 +69,7 @@ ADD noVNC /noVNC/
 # store a password for the VNC service
 RUN mkdir /home/root
 RUN mkdir /home/root/.vnc
-RUN x11vnc -storepasswd foobar /home/root/.vnc/passwd
+RUN x11vnc -storepasswd rlresearch /home/root/.vnc/passwd
 ADD xorg.conf /etc/X11/xorg.conf
 
 RUN mkdir -p /home/data/ \
